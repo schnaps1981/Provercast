@@ -23,8 +23,10 @@ class RepositoryImpl : Repository {
     override suspend fun fetchDatabase(): ResultWrapper<List<GoogleSERP>> {
         return try {
             val data = database.LastResultDao().fetchDatabase()
-            if (data.isEmpty()) ResultWrapper.Empty
-            ResultWrapper.Success(value = data)
+            if (data.isNullOrEmpty())
+                ResultWrapper.Empty
+            else
+                ResultWrapper.Success(value = data)
         } catch (e: Exception) {
             ResultWrapper.Error(error = e)
         }
